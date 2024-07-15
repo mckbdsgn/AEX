@@ -1,0 +1,134 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MACK B DESIGN</title>
+        <style>
+            body {
+                margin: 0;
+                overflow: hidden;
+                background: url('https://cdn.leonardo.ai/users/8689781f-1650-428b-95a3-908500460cc4/generations/2e18011e-9f1b-4cc6-8028-168ab26096ba/Default_a_vortex_of_mirrory_black_triangles_forming_a_blackhol_0.jpg') no-repeat center center fixed;
+                background-size: cover;
+            }
+            #slideshow {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+            }
+            .view-portfolio-button {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                padding: 10px 20px;
+                background-color: white;
+                color: black;
+                border: none;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+                animation: pulse 2s infinite;
+                background-image: url('file:///C:/Users/Brian/Desktop/AEX-main/AEX-main/ezgif-4-441001b317.gif');
+                background-size: cover;
+                background-position: center;
+            }
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.05);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div id="slideshow"></div>
+        <button class="view-portfolio-button" onclick="window.location.href='https://new.express.adobe.com/webpage/1vSLnyz6MQPCE'">View Portfolio</button>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+        <script>
+            // Initialize scene, camera, and renderer
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('slideshow').appendChild(renderer.domElement);
+
+            // Image URLs
+            const imageUrls = [
+                'https://scontent.fyvr4-1.fna.fbcdn.net/v/t39.30808-6/450731316_10161516855940747_7291076737953804206_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_ohc=canuv6Om_oQQ7kNvgGzo7wD&_nc_ht=scontent.fyvr4-1.fna&oh=00_AYABU9J22qudf2B5ze1A3R7D09v2ouVJtvECaSVPwb8HoA&oe=669A99AD',
+                'https://scontent.fyvr4-1.fna.fbcdn.net/v/t39.30808-6/451224819_10161516855885747_3195422918294731687_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=15I07RYhffkQ7kNvgHLu7QS&_nc_ht=scontent.fyvr4-1.fna&oh=00_AYCrDGJihk-4gr7TskktJfTBXuWFGYdz5OHTvL1ygXFVbg&oe=669A9B30',
+                'https://scontent.fyvr4-1.fna.fbcdn.net/v/t39.30808-6/451062459_10161516855950747_8154200732387133152_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=0cqB-dOdxW0Q7kNvgH97aL-&_nc_ht=scontent.fyvr4-1.fna&oh=00_AYBONN5mUytCFAjPNFf8z_rUcTjZ_2bohkGPY7xSMdHlDg&oe=669AA3DD',
+                'https://scontent.fyvr4-1.fna.fbcdn.net/v/t39.30808-6/451386317_10161516855945747_5543691908461561053_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=-eEfqDPB-c8Q7kNvgGq-9Wg&_nc_ht=scontent.fyvr4-1.fna&oh=00_AYBzbQTUvwJiVtHDY5Z_TUG2YAGTzDbIDvuOvEepRlhG2Q&oe=669A71C5',
+                'https://scontent.fyvr4-1.fna.fbcdn.net/v/t39.30808-6/450706789_10161516855995747_7289364071725589633_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=luco6RHkGrMQ7kNvgH1ooSv&_nc_ht=scontent.fyvr4-1.fna&oh=00_AYCRHZUwMMvhaZwsOV8Xz3glbf_0GRtMwz40Xw_bkH3m7A&oe=669AA351',
+                'https://scontent.fyvr4-1.fna.fbcdn.net/v/t39.30808-6/450700143_10161516856470747_6736672008486470653_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=1obc22xvDF0Q7kNvgG-_ndM&_nc_ht=scontent.fyvr4-1.fna&oh=00_AYCGmj9tgR2I0-kbZf1R0uU2pW4kfHzurVZ8QTvkQl7f3g&oe=669A992A'
+            ];
+
+            // Load textures
+            const loader = new THREE.TextureLoader();
+            const materials = imageUrls.map(url => new THREE.MeshBasicMaterial({ map: loader.load(url) }));
+
+            // Create a plane geometry for each image
+            const planes = materials.map(material => {
+                const geometry = new THREE.PlaneGeometry(5, 5);
+                return new THREE.Mesh(geometry, material);
+            });
+
+            // Position planes randomly and add rotation
+            planes.forEach(plane => {
+                plane.position.x = Math.random() * 200 - 100;
+                plane.position.y = Math.random() * 200 - 100;
+                plane.position.z = Math.random() * 200 - 100;
+                plane.rotation.x = Math.random() * 2 * Math.PI;
+                plane.rotation.y = Math.random() * 2 * Math.PI;
+                plane.rotation.z = Math.random() * 2 * Math.PI;
+                scene.add(plane);
+            });
+
+            // Set camera position
+            camera.position.z = 100;
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // Rotate planes and add movement
+                planes.forEach(plane => {
+                    plane.rotation.x += 0.01;
+                    plane.rotation.y += 0.01;
+                    plane.position.z += 0.5; // Move closer to the screen
+                    plane.position.x += Math.sin(Date.now() * 0.001) * 0.5; // Move left or right
+                    plane.position.y += Math.cos(Date.now() * 0.001) * 0.5; // Move up or down
+                    plane.rotation.z += 0.02; // Add spiral effect
+                    // Set the index page background
+                    document.body.style.backgroundImage = "url('https://cdn.leonardo.ai/users/8689781f-1650-428b-95a3-908500460cc4/generations/2e18011e-9f1b-4cc6-8028-168ab26096ba/Default_a_vortex_of_mirrory_black_triangles_forming_a_blackhol_0.jpg?w=512')";
+                    document.body.style.backgroundSize = "cover";
+                    document.body.style.backgroundPosition = "center";
+
+                    // Reset position if plane goes off screen
+                    if (plane.position.z > 100) {
+                        plane.position.z = -100;
+                        plane.position.x = Math.random() * 200 - 100;
+                        plane.position.y = Math.random() * 200 - 100;
+                    }
+                });
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Handle window resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        </script>
+    </body>
+    </html>
